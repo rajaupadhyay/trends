@@ -59,7 +59,7 @@ class TrendRequest(object):
                 i += 1
 
 
-    def retrieveTrends(self, keywords, timeFrame='today 3-m', geo=''):
+    def retrieveTrends(self, keywords, timeFrame='today 3-m', geo='', cat=''):
         browser = webdriver.Chrome(self.chromeDriverPath,options=self.chromeOptions)
         timeFrame = timeFrame.replace(' ', '%20')
         self.geo = geo
@@ -89,9 +89,15 @@ class TrendRequest(object):
                 break
 
 
-            url = 'http://trends.google.com/trends/explore?date={}&q='.format(timeFrame)
-            url = url + keyword.replace(' ', '%20')
+            url = 'http://trends.google.com/trends/explore?date={}'.format(timeFrame)
+            if geo:
+                url = url + "&geo={}".format(geo)
 
+            if cat:
+                url = url + "&cat={}".format(cat)
+
+
+            url = url + "&q=" + keyword.replace(' ', '%20')
 
             try:
                 browser.get(url)
@@ -124,4 +130,4 @@ class TrendRequest(object):
 
         browser.quit()
         self.resultDataFrame.to_csv('trendsData.csv')
-        self.logger.info("Trends data obtained successfully!")
+        self.logger.info("PROCESS COMPLETE")
