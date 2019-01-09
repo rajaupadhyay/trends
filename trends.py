@@ -137,7 +137,7 @@ class TrendRequest(object):
 
 
             url = url + "&q=" + keyword.replace(' ', '%20')
-
+            print(url)
             try:
                 browser.get(url)
                 sleep(5)
